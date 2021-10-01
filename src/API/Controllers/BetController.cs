@@ -6,6 +6,7 @@ using Application.Bets.Commands.DeleteBet;
 using Application.Bets.Commands.UpdateBet;
 using Application.Bets.Queries;
 using Application.Bets.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,11 @@ namespace API.Controllers
     [Authorize]
     public class BetController : ApiController
     {
+        private readonly IMediator _mediator;
+        public BetController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
         /// <summary>
         /// Creates a bet and stores it to the database
         /// </summary>
@@ -27,9 +33,9 @@ namespace API.Controllers
         /// </example>
         [HttpPost]
         [ApiConventionMethod(typeof(DefaultApiConventions),nameof(DefaultApiConventions.Post))]
-        public async Task<ActionResult<BetVm>> Create(CreateBetCommand command)
+        public async Task<IActionResult> Create(CreateBetCommand command)
         {
-            return await Mediator.Send(command);
+            return Ok(await _mediator.Send(command));
         }
 
         /// <summary>
@@ -46,7 +52,7 @@ namespace API.Controllers
         [ApiConventionMethod(typeof(DefaultApiConventions),nameof(DefaultApiConventions.Put))]
         public async Task<ActionResult<BetVm>> Update(UpdateBetCommand command)
         {
-            return await Mediator.Send(command);
+            return await _mediator.Send(command);
         }
 
         /// <summary>
@@ -61,7 +67,7 @@ namespace API.Controllers
         [ApiConventionMethod(typeof(DefaultApiConventions),nameof(DefaultApiConventions.Delete))]
         public async Task<ActionResult> Delete(int id)
         {
-            await Mediator.Send(new DeleteBetCommand {Id = id});
+            await _mediator.Send(new DeleteBetCommand {Id = id});
             
             return NoContent();
         }
@@ -77,7 +83,7 @@ namespace API.Controllers
         [ApiConventionMethod(typeof(DefaultApiConventions),nameof(DefaultApiConventions.Get))]
         public async Task<ActionResult<List<BetVm>>> Get()
         {
-            var bets = await Mediator.Send(new GetBetsQuery());
+            var bets = await _mediator.Send(new GetBetsQuery());
             return bets.ToList();
         }
 
@@ -93,7 +99,13 @@ namespace API.Controllers
         [ApiConventionMethod(typeof(DefaultApiConventions),nameof(DefaultApiConventions.Get))]
         public async Task<ActionResult<BetVm>> GetById(int id)
         {
-            var bet = await Mediator.Send(new GetBetByIdQuery {Id = id});
+            var bet = await _mediator.Send(new GetBetByIdQuery {Id = id});
+
+            if (bet == null)
+            {
+                return NotFound();
+            }
+            
             return bet;
         }
     }

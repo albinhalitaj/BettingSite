@@ -8,6 +8,7 @@ using API.Services;
 using Application;
 using Application.Common.Interfaces;
 using Infrastructure;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,6 +38,7 @@ namespace API
             services.AddApplication();
             
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
+            services.AddSingleton<IMediator, Mediator>();
 
             services.AddHttpContextAccessor();
 
