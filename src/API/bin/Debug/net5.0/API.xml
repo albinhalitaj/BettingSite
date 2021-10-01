@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API</name>
+    </assembly>
+    <members>
+        <member name="M:API.Controllers.BetController.Create(Application.Bets.Commands.CreateBet.CreateBetCommand)">
+            <summary>
+            Creates a bet and stores it to the database
+            </summary>
+            <param name="command">Request's payload</param>
+            <returns>The created bet</returns>
+            <example>
+                POST /api/Bet
+                "betType": 1
+                "amount": 24
+            </example>
+        </member>
+        <member name="M:API.Controllers.BetController.Update(Application.Bets.Commands.UpdateBet.UpdateBetCommand)">
+            <summary>
+            Updates a bet
+            </summary>
+            <param name="command">Request's payload</param>
+            <returns>The updated bet</returns>
+            <example>
+                PUT /api/Bet
+                "betType": 1
+                "amount": 24
+            </example>
+        </member>
+        <member name="M:API.Controllers.BetController.Delete(System.Int32)">
+            <summary>
+            Deletes a bet
+            </summary>
+            <param name="id">The id of bet</param>
+            <returns>NoContent</returns>
+            <example>
+                DELETE /api/Bet/1
+            </example>
+        </member>
+        <member name="M:API.Controllers.BetController.Get">
+            <summary>
+            Displays the list of all created bets
+            </summary>
+            <returns>The list of all bets</returns>
+            <example>
+                GET /api/Bet
+            </example>
+        </member>
+        <member name="M:API.Controllers.BetController.GetById(System.Int32)">
+            <summary>
+            Displays single bet with the id provided
+            </summary>
+            <param name="id">The id of bet</param>
+            <returns>Single bet</returns>
+            <example>
+                GET /api/Bet/1
+            </example>
+        </member>
+        <member name="M:API.Controllers.IdentityController.Register(Application.Identity.Commands.CreateUserCommand)">
+            <summary>
+             Registers a new user and stores it to the database 
+            </summary>
+            <param name="command">Request's payload</param>
+            <returns>NoContent</returns>
+            <example>
+                POST /api/identity/register
+                "username": "test"
+                "email": "test@test.com"
+                "password": "test1234"
+            </example>
+        </member>
+        <member name="M:API.Controllers.IdentityController.Login(Application.Identity.Commands.LoginUserCommand)">
+            <summary>
+            Validates the user credentials and logs in the user
+            </summary>
+            <param name="command">Request's payload</param>
+            <returns>User id and the token</returns>
+             <example>
+                POST /api/identity/login
+                "username": "test"
+                "password": "test1234"
+            </example>
+        </member>
+    </members>
+</doc>
